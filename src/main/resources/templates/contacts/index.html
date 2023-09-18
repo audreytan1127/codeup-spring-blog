@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/partials :: head('Contacts')"></head>
+<body>
+<div id="wrapper">
+  <nav th:replace="partials/partials :: nav"></nav>
+  <header th:replace="partials/partials :: header('Here are your contacts!')"></header>
+  <main class="container">
+    <article th:each="contact : ${contacts}">
+      <p>
+      Name:<span th:text="${contact.name}"></span>
+       | Email:<span th:text="${contact.email}"></span>
+      </p>
+    </article>
+  </main>
+  <footer th:replace="partials/partials :: footer"></footer>
+</div>
+<th:block th:replace="partials/partials :: scripts"></th:block>
+</body>
