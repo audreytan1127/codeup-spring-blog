@@ -15,9 +15,14 @@ public class ContactController {
     public ContactController(ContactRepository contactsDao){
         this.contactsDao = contactsDao;
     }
-    @GetMapping("/contacts")
+    @GetMapping("/contacts/justin")
     @ResponseBody
     public List<Contact> returnContacts(){
+        return contactsDao.findAllByName("Justin");
+    }
+    @GetMapping("/contacts")
+    @ResponseBody
+    public List<Contact> returnAllContacts(){
     return contactsDao.findAll();
     }
     @GetMapping("/contacts/view")
