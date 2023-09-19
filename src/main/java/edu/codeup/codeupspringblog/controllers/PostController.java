@@ -28,8 +28,11 @@ public class PostController {
 
     @GetMapping("/{id}")
     public String individualPost(@PathVariable long id, Model model) {
-        model.addAttribute("blogposts", blogsDao.getById(id));
-        return "blogposts/show";
+        if(blogsDao.existsById(id)) {
+            model.addAttribute("blogposts", blogsDao.findById(id).get());
+            return "blogposts/show";
+        }
+        return "redirect:/posts";
     }
 
     @GetMapping("/create")
@@ -38,10 +41,8 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String postCreatedPost(@RequestParam(name = "title") String title, @RequestParam(name = "content") String content, Model model) {
-        BlogPost newBlog = new BlogPost();
-        newBlog.setTitle(title);
-        newBlog.setBody(content);
+    public String postCreatedPost(@RequestParam(name = "title") String title, @RequestParam(name = "content") String content) {
+        BlogPost newBlog = new BlogPost(title, content);
         blogsDao.save(newBlog);
         return "redirect:/posts";
 

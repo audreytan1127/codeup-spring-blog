@@ -7,3 +7,8 @@
 #wrapper main {
     flex-grow: 1;
 }
+.create-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
