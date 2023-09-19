@@ -13,6 +13,9 @@ public class BlogPost {
     private String title;
     @Column(columnDefinition = "TEXT")
     private String body;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="user_id")
+    private User user;
 
     public BlogPost() {
     }
