@@ -17,7 +17,7 @@ public class User {
     private String email;
     @Column(nullable = false, length = 50)
     private String password;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<BlogPost> blogposts;
 
     public User(){}
@@ -32,6 +32,21 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String username, String email, String password, List<BlogPost> blogposts) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.blogposts = blogposts;
+    }
+
+    public User(long id, String username, String email, String password, List<BlogPost> blogposts) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.blogposts = blogposts;
     }
 
     public long getId() {
