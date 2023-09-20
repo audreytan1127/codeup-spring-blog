@@ -31,7 +31,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public String individualPost(@PathVariable long id, Model model) {
-        if(blogsDao.existsById(id)) {
+        if (blogsDao.existsById(id)) {
             BlogPost post = blogsDao.findById(id).get();
             model.addAttribute("blogpost", post);
             return "blogposts/show";
@@ -46,13 +46,9 @@ public class PostController {
 
     @PostMapping("/create")
     public String postCreatedPost(@RequestParam(name = "title") String title,
-                                  @RequestParam(name = "content") String content
-    ) {
-       User newUser = userDao.findById(1L).get();
-        BlogPost newBlog = new BlogPost();
-        newBlog.setTitle(title);
-        newBlog.setBody(content);
-        newBlog.setUser(newUser);
+                                  @RequestParam(name = "content") String content) {
+        User newUser = userDao.findById(1L).get();
+        BlogPost newBlog = new BlogPost(title, content, newUser);
         blogsDao.save(newBlog);
         return "redirect:/posts";
 
