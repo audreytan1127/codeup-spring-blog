@@ -53,7 +53,7 @@ public class AdController {
                 ad.getDescription()
         );
         adsDao.save(adToSave);
-        emailService.prepareAndSend(adToSave, "You created an ad!", "Here is some more info from your ad!");
+        emailService.prepareAndSendAds(adToSave, "You created an ad!", "Here is some more info from your ad!");
         return "redirect:/ads";
     }
 
