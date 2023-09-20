@@ -1,6 +1,7 @@
 package edu.codeup.codeupspringblog.controllers;
 
 import edu.codeup.codeupspringblog.models.BlogPost;
+import edu.codeup.codeupspringblog.models.User;
 import edu.codeup.codeupspringblog.repositories.BlogPostRepository;
 import edu.codeup.codeupspringblog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,10 @@ public class PostController {
     private BlogPostRepository blogsDao;
     private UserRepository userDao;
 
-    public PostController(BlogPostRepository blogsDao) {
+    public PostController(BlogPostRepository blogsDao, UserRepository userDao) {
         this.blogsDao = blogsDao;
+        this.userDao = userDao;
     }
-
 
     @GetMapping("")
     public String postIndex(Model model) {
@@ -31,7 +32,8 @@ public class PostController {
     @GetMapping("/{id}")
     public String individualPost(@PathVariable long id, Model model) {
         if(blogsDao.existsById(id)) {
-            model.addAttribute("blogposts", blogsDao.findById(id).get());
+            BlogPost post = blogsDao.findById(id).get();
+            model.addAttribute("blogpost", post);
             return "blogposts/show";
         }
         return "redirect:/posts";
@@ -43,8 +45,14 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    public String postCreatedPost(@RequestParam(name = "title") String title, @RequestParam(name = "content") String content) {
-        BlogPost newBlog = new BlogPost(title, content);
+    public String postCreatedPost(@RequestParam(name = "title") String title,
+                                  @RequestParam(name = "content") String content
+    ) {
+       User newUser = userDao.findById(1L).get();
+        BlogPost newBlog = new BlogPost();
+        newBlog.setTitle(title);
+        newBlog.setBody(content);
+        newBlog.setUser(newUser);
         blogsDao.save(newBlog);
         return "redirect:/posts";
 

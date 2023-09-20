@@ -4,9 +4,10 @@
 <body>
 <div id="wrapper">
     <nav th:replace="partials/partials :: nav"></nav>
-    <header th:replace="partials/partials :: header(${blogposts.getTitle()})"></header>
+    <header th:replace="partials/partials :: header(${blogposts.title})"></header>
     <main class="container">
-        <p th:text="${blogposts.getBody()}"></p>
+        <p th:text="${blogposts.body}"></p>
+        <p th:text="${blogposts.user}"></p>
     </main>
     <footer th:replace="partials/partials :: footer"></footer>
 </div>
