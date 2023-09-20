@@ -55,6 +55,20 @@ public class PostController {
         );
         blogsDao.save(newBlog);
         return "redirect:/posts";
+    }
 
+    @GetMapping("/{id}/edit")
+    public String showEditPost(@PathVariable long id, Model model){
+        BlogPost blogToEdit = blogsDao.findById(id).get();
+        model.addAttribute("blogpost", blogToEdit);
+        return "blogposts/edit";
+    }
+    @PostMapping("/{id}/edit")
+    public String editPost(@PathVariable long id, @ModelAttribute BlogPost editPost){
+        BlogPost blogToEdit = blogsDao.findById(id).get();
+        blogToEdit.setTitle(editPost.getTitle());
+        blogToEdit.setBody(editPost.getBody());
+        blogsDao.save(blogToEdit);
+        return "redirect:/posts";
     }
 }
