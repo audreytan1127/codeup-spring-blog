@@ -40,15 +40,19 @@ public class PostController {
     }
 
     @GetMapping("/create")
-    public String createPost() {
+    public String createPost(Model model) {
+        model.addAttribute("blogpost", new BlogPost());
         return "blogposts/create";
     }
 
     @PostMapping("/create")
-    public String postCreatedPost(@RequestParam(name = "title") String title,
-                                  @RequestParam(name = "content") String content) {
+    public String postCreatedPost(@ModelAttribute BlogPost newPost) {
         User newUser = userDao.findById(1L).get();
-        BlogPost newBlog = new BlogPost(title, content, newUser);
+        BlogPost newBlog = new BlogPost(
+                newPost.getTitle(),
+                newPost.getBody(),
+                newUser
+        );
         blogsDao.save(newBlog);
         return "redirect:/posts";
 

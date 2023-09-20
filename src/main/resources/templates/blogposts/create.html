@@ -6,13 +6,13 @@
     <nav th:replace="partials/partials :: nav"></nav>
     <header th:replace="partials/partials :: header('Create Posts')"></header>
     <main class="container">
-       <form th:action="@{/posts/create}" th:method="post" class="create-form">
+       <form th:action="@{/posts/create}" th:method="post" th:object="${blogpost}" class="create-form">
            <label for="title">
-           <input id="title" name="title" type="text" placeholder="Title of Blog Post">
+           <input id="title" name="title" type="text" placeholder="Title of Blog Post"th:field="*{title}">
            </label>
            <br>
            <label for="content">
-               <textarea id="content" name="content" type="text" placeholder="Blog Content" rows="5" cols="60"></textarea>
+               <textarea id="content" name="content" type="text" placeholder="Blog Content" th:field="*{body}" rows="5" cols="60"></textarea>
            </label>
            <br>
            <button type="submit">Post!</button>
