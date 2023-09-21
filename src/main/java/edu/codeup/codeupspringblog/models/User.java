@@ -15,12 +15,21 @@ public class User {
     private String username;
     @Column(nullable = false, length = 100, unique = true)
     private String email;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<BlogPost> blogposts;
 
     public User(){}
+
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+        blogposts = copy.blogposts;
+    }
+
     public User(long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
