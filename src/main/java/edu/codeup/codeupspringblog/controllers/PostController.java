@@ -5,6 +5,7 @@ import edu.codeup.codeupspringblog.models.User;
 import edu.codeup.codeupspringblog.repositories.BlogPostRepository;
 import edu.codeup.codeupspringblog.repositories.UserRepository;
 import edu.codeup.codeupspringblog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,11 +51,13 @@ public class PostController {
 
     @PostMapping("/create")
     public String postCreatedPost(@ModelAttribute BlogPost newPost) {
-        User newUser = userDao.findById(1L).get();
+//        Finds the user through spring boot security. Finds user object in session.
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User usersId = userDao.findById(user.getId()).get();
         BlogPost newBlog = new BlogPost(
                 newPost.getTitle(),
                 newPost.getBody(),
-                newUser
+                usersId
         );
         blogsDao.save(newBlog);
         emailService.prepareAndSendBlogs(newBlog, "You've created a new blog post!", "You have submitted a blog post!");
